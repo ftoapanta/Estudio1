@@ -13,22 +13,34 @@
                 FontAttributes="Bold"
                 HorizontalOptions="CenterAndExpand" />
             <Label Text="Monto:" />
-            <Entry Placeholder="Ingrese monto a convertir"/>
+            <Entry Placeholder="Ingrese monto a convertir"
+                   Text="{Binding Monto,Mode=TwoWay}"
+                   />
             <Label Text="Moneda Origen:" />
-            <Picker Title="Seleccione la Moneda Origen"/>
+            <Picker Title="Seleccione la Moneda Origen"
+                    ItemsSource="{Binding Cotizaciones}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding CotizacionOrigen,Mode=TwoWay}"
+                    />
             <Label Text="Moneda Destino:" />
-            <Picker Title="Seleccione la Moneda Destino"/>
-            <ActivityIndicator></ActivityIndicator>
+            <Picker Title="Seleccione la Moneda Destino"
+                    ItemsSource="{Binding Cotizaciones}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding CotizacionDestino,Mode=TwoWay}"/>
+            <ActivityIndicator IsRunning="{Binding EstaCorriendo,Mode=TwoWay}"></ActivityIndicator>
             <Button
                 Text="Convertir"
                 BackgroundColor="Navy"
                 TextColor="White"
                 FontAttributes="Bold"
                 BorderRadius="25"
-                HeightRequest="50">
+                HeightRequest="50"
+                Command="{Binding ConvertirCommand}"
+                IsEnabled="{Binding EstaHabilitado,Mode=TwoWay}"
+                >
             </Button>
             <Label
-                Text="Cargando"
+                Text="{Binding Resultado}"
                 VerticalTextAlignment="Center"
                 VerticalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
