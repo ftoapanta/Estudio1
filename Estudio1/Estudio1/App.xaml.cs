@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Estudio1.Views;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Estudio1
@@ -11,7 +12,7 @@ namespace Estudio1
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MainView();
         }
 
         protected override void OnStart()

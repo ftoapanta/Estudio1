@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="Estudio1.Views.MainView">
+    <ContentPage.Content>
+        <StackLayout Padding="30,20,10,20">
+            <Label Text="Estudio1 Cambio Divisas"
+                FontSize="Large"
+                FontAttributes="Bold"
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
