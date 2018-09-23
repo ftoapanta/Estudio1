@@ -1,8 +1,6 @@
 ﻿using Estudio1.Models;
 using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
 using System.Windows.Input;
 
 namespace Estudio1.ViewModels
@@ -28,11 +26,18 @@ namespace Estudio1.ViewModels
             }
         }
 
-        private void Convertir()
+        public void Convertir()
         {
             Resultado = "Listo";
             //throw new NotImplementedException();
         }
         #endregion
+
+        public MainViewModel()
+        {
+            EstaCorriendo = true;
+            EstaHabilitado = true;
+            Resultado = "......";
+        }
     }
 }
