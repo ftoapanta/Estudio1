@@ -21,7 +21,7 @@ namespace Estudio1.ViewModels
         #endregion
 
         #region Comandos
-        public ICommand MyProperty {
+        public ICommand ConvertirCommand {
             get
             {
                 return new RelayCommand(Convertir);
