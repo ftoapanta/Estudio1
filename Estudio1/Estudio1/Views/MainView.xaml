@@ -2,10 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             BackgroundColor="Accent"
+             BackgroundColor="LightBlue"
              x:Class="Estudio1.Views.MainView">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20,30,20,10"
+                    Android="20,20,20,10"/>
+    </ContentPage.Padding>
     <ContentPage.Content>
-        <StackLayout Padding="30,20,10,20">
+        <StackLayout>
             <Label 
                 Text="Estudio1 Cambio Divisas"
                 TextColor="Blue"
