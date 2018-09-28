@@ -6,9 +6,25 @@ namespace Estudio1.Models
 {
     public class Cotizacion
     {
-        public int Id { get; set; }
-        public string Moneda { get; set; }
-        public decimal Tasa { get; set; }
-        public string Nombre { get; set; }
+        public string currency { get; set; }
+        public string code { get; set; }
+        public decimal mid { get; set; }
+
+    }
+    
+
+    public class Rate
+    {
+        public string currency { get; set; }
+        public string code { get; set; }
+        public double mid { get; set; }
+    }
+
+    public class RootObject
+    {
+        public string table { get; set; }
+        public string no { get; set; }
+        public string effectiveDate { get; set; }
+        public List<Rate> rates { get; set; }
     }
 }

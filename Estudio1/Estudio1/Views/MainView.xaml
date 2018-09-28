@@ -24,13 +24,13 @@
             <Label Text="Moneda Origen:" />
             <Picker Title="Seleccione la Moneda Origen"
                     ItemsSource="{Binding Cotizaciones}"
-                    ItemDisplayBinding="{Binding Nombre}"
+                    ItemDisplayBinding="{Binding code}"
                     SelectedItem="{Binding CotizacionOrigen,Mode=TwoWay}"
                     />
             <Label Text="Moneda Destino:" />
             <Picker Title="Seleccione la Moneda Destino"
                     ItemsSource="{Binding Cotizaciones}"
-                    ItemDisplayBinding="{Binding Nombre}"
+                    ItemDisplayBinding="{Binding code}"
                     SelectedItem="{Binding CotizacionDestino,Mode=TwoWay}"/>
             <ActivityIndicator IsRunning="{Binding EstaCorriendo,Mode=TwoWay}"></ActivityIndicator>
             <Button
