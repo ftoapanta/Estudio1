@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label 
-                Text="Estudio1 Cambio Divisas"
+                Text="Cotizaciones"
                 TextColor="Blue"
                 FontSize="Large"
                 FontAttributes="Bold"
@@ -73,6 +73,7 @@
                     Grid.Column="2"
                     HeightRequest="40"
                     WidthRequest="40"
+                    VerticalOptions="FillAndExpand"
                     >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding IntercambiarCommand}" />
