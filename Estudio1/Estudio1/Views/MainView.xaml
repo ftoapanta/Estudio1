@@ -72,7 +72,8 @@
                     Grid.RowSpan="2"
                     Grid.Column="2"
                     HeightRequest="40"
-                    WidthRequest="40">
+                    WidthRequest="40"
+                    >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding IntercambiarCommand}" />
                     </Image.GestureRecognizers>
@@ -98,6 +99,7 @@
                 HorizontalTextAlignment="Center"
                 Margin="0,10"
                 FontSize="Large"
+                HeightRequest="500"
                 BackgroundColor="Silver">
             </Label>
         </StackLayout>
