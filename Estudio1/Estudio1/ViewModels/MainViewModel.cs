@@ -143,12 +143,20 @@ namespace Estudio1.ViewModels
         #endregion
 
         #region Comandos
+        public ICommand IntercambiarCommand
+        {
+            get
+            {
+                return new RelayCommand(Intercambiar);
+            }
+        }
         public ICommand ConvertirCommand { 
             get
             {
                 return new RelayCommand(Convertir);
             }
         }
+
         async void Convertir() //async para que se pueda liberar los mensajes
         {
             if (string.IsNullOrEmpty(Monto))
@@ -175,6 +183,14 @@ namespace Estudio1.ViewModels
 
             var respuesta = (Math.Round(Convert.ToDouble(Monto) * (CotizacionOrigen.mid/ CotizacionDestino.mid),2)).ToString();
             Resultado = String.Format("{0:C2} {1} = {2:c2} {3}",Monto,CotizacionOrigen.code,respuesta,CotizacionDestino.code);
+        }
+
+        void Intercambiar()
+        {
+            var aux = CotizacionOrigen;
+            CotizacionOrigen = CotizacionDestino;
+            CotizacionDestino = aux;
+            Convertir();
         }
         #endregion
 
@@ -205,16 +221,17 @@ namespace Estudio1.ViewModels
                 }
                 var respuestaCotizaciones = JsonConvert.DeserializeObject<List<Rootobject>>(textoRespuesta);
                 List<rate> listaCotizaciones = respuestaCotizaciones[0].rates;
-                /*
+
                 //Solo para cuando se ejecuta desde Xamarin Live
-                if (true || listaCotizaciones is null || listaCotizaciones.Count==0) //Falla solo en Xamarin Live
+                var EsXamarinLive = false;
+                if (EsXamarinLive) //Falla solo en Xamarin Live
                 {
                     listaCotizaciones = new List<rate>();
                     listaCotizaciones.Add(new rate { code = "EUR", mid = 0.85, currency = "Euro" });
                     listaCotizaciones.Add(new rate { code = "COP", mid = 2200, currency = "Peso Colombino" });
                     listaCotizaciones.Add(new rate { code = "PEN", mid = 2.8, currency = "Nuevo Sol Peruano" });
                 }
-                */
+                
 
                 Cotizaciones = new ObservableCollection<rate>();
                 foreach (var item in listaCotizaciones)

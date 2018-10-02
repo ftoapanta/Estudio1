@@ -17,21 +17,68 @@
                 FontSize="Large"
                 FontAttributes="Bold"
                 HorizontalOptions="CenterAndExpand" />
-            <Label Text="Monto:" />
-            <Entry Placeholder="Ingrese monto a convertir"
-                   Text="{Binding Monto,Mode=TwoWay}"
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Text="Monto:"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       VerticalOptions="Center"
+                       />
+                <Entry 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Placeholder="Ingrese monto a convertir"
+                    Text="{Binding Monto,Mode=TwoWay}"
                    />
-            <Label Text="Moneda Origen:" />
-            <Picker Title="Seleccione la Moneda Origen"
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalOptions="Center"
+                    Text="Moneda Origen:" />
+                <Picker 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Title="Seleccione la Moneda Origen"
                     ItemsSource="{Binding Cotizaciones}"
                     ItemDisplayBinding="{Binding code}"
                     SelectedItem="{Binding CotizacionOrigen,Mode=TwoWay}"
                     />
-            <Label Text="Moneda Destino:" />
-            <Picker Title="Seleccione la Moneda Destino"
+                <Label 
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalOptions="Center"
+                    Text="Moneda Destino:" />
+                <Picker 
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Title="Seleccione la Moneda Destino"
                     ItemsSource="{Binding Cotizaciones}"
                     ItemDisplayBinding="{Binding code}"
                     SelectedItem="{Binding CotizacionDestino,Mode=TwoWay}"/>
+                <Image 
+                    Source="switchIcon.png"
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    HeightRequest="40"
+                    WidthRequest="40">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding IntercambiarCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+            </Grid>
             <ActivityIndicator IsRunning="{Binding EstaCorriendo,Mode=TwoWay}"></ActivityIndicator>
             <Button
                 Text="Convertir"
