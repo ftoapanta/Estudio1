@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ForeignExchange2.Resources {
+namespace Estudio1.Resources {
     using System;
     using System.Reflection;
     
