@@ -21,9 +21,9 @@ namespace Estudio1.ViewModels
         bool estaCorriendo { get; set; }
         bool estaHabilitado { get; set; }
         string resultado { get; set; }
-        public ObservableCollection<rate> cotizaciones { get; set; }
-        public rate cotizacionOrigen { get; set; }
-        public rate cotizacionDestino { get; set; }
+        public ObservableCollection<Cotizacion> cotizaciones { get; set; }
+        public Cotizacion cotizacionOrigen { get; set; }
+        public Cotizacion cotizacionDestino { get; set; }
         public string monto { get; set; }
         #endregion
 
@@ -76,7 +76,7 @@ namespace Estudio1.ViewModels
 
             }
         }
-        public ObservableCollection<rate> Cotizaciones
+        public ObservableCollection<Cotizacion> Cotizaciones
         {
             get
             {
@@ -108,7 +108,7 @@ namespace Estudio1.ViewModels
 
             }
         }
-        public rate CotizacionOrigen
+        public Cotizacion CotizacionOrigen
         {
             get
             {
@@ -124,7 +124,7 @@ namespace Estudio1.ViewModels
 
             }
         }
-        public rate CotizacionDestino
+        public Cotizacion CotizacionDestino
         {
             get
             {
@@ -234,17 +234,19 @@ namespace Estudio1.ViewModels
                 }
                 
 
-                Cotizaciones = new ObservableCollection<rate>();
+                Cotizaciones = new ObservableCollection<Cotizacion>();
+                int id = 0;
                 foreach (var item in listaCotizaciones)
                 {
                     try
                     {
-                        Cotizaciones.Add(new rate
+                        id++;
+                        Cotizaciones.Add(new Cotizacion
                         {
+                            CotizacionId = id,
                             code = item.code,
                             currency = item.currency,
                             mid = item.mid
-
                         });
                     }
                     catch(Exception ex) {
