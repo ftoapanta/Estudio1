@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using Estudio1.Models;
 
 namespace Estudio1.ViewModels
 {
@@ -265,26 +266,4 @@ namespace Estudio1.ViewModels
         }
     }
 
-    public class rate
-    {
-        public string currency { get; set; }
-        public string code { get; set; }
-        public double mid { get; set; }
-        public rate()
-        {
-
-        }
-    }
-
-    public class Rootobject
-    {
-        public string table { get; set; }
-        public string no { get; set; }
-        public string effectiveDate { get; set; }
-        public List<rate> rates { get; set; }
-        public Rootobject()
-        {
-
-        }
-    }
 }
