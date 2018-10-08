@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Estudio1.Models;
+using Estudio1.Services;
+using System.Threading.Tasks;
 
 namespace Estudio1.ViewModels
 {
@@ -16,6 +18,12 @@ namespace Estudio1.ViewModels
     {
         //para disparar el binding a la vista se lo hace utilizando en las propiedades
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #region Servicios
+        ApiService apiService;
+        DialogService dialogService;
+        DataService dataService;
+        #endregion
 
         #region Atributos Para ue se ejecute los binding
         bool estaCorriendo { get; set; }
@@ -28,6 +36,8 @@ namespace Estudio1.ViewModels
         #endregion
 
         #region Propiedades
+        List<rate> listaRates;
+        List<Cotizacion> listaCotizaciones;
         public bool EstaCorriendo
         {
             get
@@ -162,23 +172,23 @@ namespace Estudio1.ViewModels
         {
             if (string.IsNullOrEmpty(Monto))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Ingrese monto", "Aceptar");
+                await dialogService.ShowMessage("Error", "Ingrese monto");
                 return;
             }
             decimal monto=0;
             if(!decimal.TryParse(Monto, out monto))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Ingrese un valor numérico", "Aceptar");
+                await dialogService.ShowMessage("Error", "Ingrese un valor numérico");
                 return;
             }
             if (CotizacionOrigen==null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Seleccione Moneda Origen", "Aceptar");
+                await dialogService.ShowMessage("Error", "Seleccione Moneda Origen");
                 return;
             }
             if (CotizacionDestino == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Seleccione Moneda Destino", "Aceptar");
+                await dialogService.ShowMessage("Error", "Seleccione Moneda Destino");
                 return;
             }
 
@@ -195,67 +205,48 @@ namespace Estudio1.ViewModels
         }
         #endregion
 
+        #region Constructores
         public MainViewModel()
         {
+            apiService = new ApiService();
+            dialogService = new DialogService();
+            dataService = new DataService();
             CargarCotizaciones();
         }
+        #endregion
 
         async void CargarCotizaciones()
         {
             EstaCorriendo = true;
             Resultado = "Cargando monedas...";
-            var url = @"http://api.nbp.pl";
-            var controlador = @"/api/exchangerates/tables/A";
+
+            var connection = await apiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                LoadLocalData();
+            }
+            else
+            {
+                await LoadDataFromAPI();
+            }
+
+            if (listaCotizaciones.Count == 0)
+            {
+                EstaCorriendo = false;
+                EstaHabilitado = false;
+                Resultado = "There are not internet connection and not load " +
+                    "previously rates. Please try again with internet " +
+                    "connection.";
+                //var status = "No rates loaded.";
+                return;
+            }
             try
             {
-                var cliente = new HttpClient();
-                cliente.BaseAddress = new Uri(url);
-                cliente.DefaultRequestHeaders.Accept.Add(
-                  new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var respuesta = await cliente.GetAsync(controlador);
-                var textoRespuesta = await respuesta.Content.ReadAsStringAsync();
-                if (!respuesta.IsSuccessStatusCode)
-                {
-                    EstaCorriendo = false;
-                    Resultado = textoRespuesta;
-                }
-                var respuestaCotizaciones = JsonConvert.DeserializeObject<List<Rootobject>>(textoRespuesta);
-                List<rate> listaCotizaciones = respuestaCotizaciones[0].rates;
-
-                //Solo para cuando se ejecuta desde Xamarin Live
-                var EsXamarinLive = false;
-                if (EsXamarinLive) //Falla solo en Xamarin Live
-                {
-                    listaCotizaciones = new List<rate>();
-                    listaCotizaciones.Add(new rate { code = "EUR", mid = 0.85, currency = "Euro" });
-                    listaCotizaciones.Add(new rate { code = "COP", mid = 2200, currency = "Peso Colombino" });
-                    listaCotizaciones.Add(new rate { code = "PEN", mid = 2.8, currency = "Nuevo Sol Peruano" });
-                }
-                
 
                 Cotizaciones = new ObservableCollection<Cotizacion>();
-                int id = 0;
-                foreach (var item in listaCotizaciones)
-                {
-                    try
-                    {
-                        id++;
-                        Cotizaciones.Add(new Cotizacion
-                        {
-                            CotizacionId = id,
-                            code = item.code,
-                            currency = item.currency,
-                            mid = item.mid
-                        });
-                    }
-                    catch(Exception ex) {
-                        Resultado = ex.Message;
-                        EstaCorriendo = false;
-                        EstaHabilitado = false;
-                        return;
-                    };
-                }
+                listaCotizaciones.ForEach(x => Cotizaciones.Add(new Cotizacion { code = x.code, CotizacionId = x.CotizacionId, currency = x.currency, mid = x.mid }));
+
                 EstaCorriendo = false;
                 EstaHabilitado = true;
                 Resultado = "Listo para convertir...";
@@ -266,6 +257,71 @@ namespace Estudio1.ViewModels
                 Resultado = ex.Message;
             }
         }
-    }
+        void LoadLocalData()
+        {
+            listaCotizaciones = dataService.Get<Cotizacion>();
 
+            Resultado = "Rates loaded from local data.";
+        }
+        async Task LoadDataFromAPI()
+        {
+            var url = "http://api.nbp.pl"; //Application.Current.Resources["URLAPI"].ToString();
+
+            var response = await apiService.GetList<Rootobject>(
+                url,
+                "/api/exchangerates/tables/A");
+
+            if (!response.IsSuccess)
+            {
+                LoadLocalData();
+                return;
+            }
+
+            var respuestaCotizaciones = ((List<Rootobject>)response.Result);
+            listaRates = respuestaCotizaciones[0].rates;
+            
+            #region Solo en Xamarin Live
+            //Solo para cuando se ejecuta desde Xamarin Live
+            var EsXamarinLive = false;
+            if (EsXamarinLive) //Falla solo en Xamarin Live
+            {
+                listaRates = new List<rate>();
+                listaRates.Add(new rate { code = "EUR", mid = 0.85, currency = "Euro" });
+                listaRates.Add(new rate { code = "COP", mid = 2200, currency = "Peso Colombino" });
+                listaRates.Add(new rate { code = "PEN", mid = 2.8, currency = "Nuevo Sol Peruano" });
+            }
+            #endregion
+
+            int id = 0;
+            listaCotizaciones = new List<Cotizacion>();
+            foreach (var item in listaRates)
+            {
+                try
+                {
+                    id++;
+                    listaCotizaciones.Add(new Cotizacion
+                    {
+                        CotizacionId = id,
+                        code = item.code,
+                        currency = item.currency,
+                        mid = item.mid
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Resultado = ex.Message;
+                    EstaCorriendo = false;
+                    EstaHabilitado = false;
+                    return;
+                };
+            }
+
+
+            // Storage data local
+            dataService.DeleteAll<Cotizacion>();
+            dataService.Save(listaCotizaciones);
+
+            //Status = "Rates loaded from Internet.";
+        }
+    }
 }

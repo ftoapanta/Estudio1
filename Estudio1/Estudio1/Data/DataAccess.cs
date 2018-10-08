@@ -1,13 +1,12 @@
-﻿using Estudio1.Interfaces;
-using Estudio1.Models;
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-
-namespace Estudio1.Data
+﻿namespace Estudio1.Data
 {
+    using Estudio1.Interfaces;
+    using Estudio1.Models;
+    using SQLite;
+    using SQLiteNetExtensions;
+    using System;
+    using System.Collections.Generic;
+    using Xamarin.Forms;
     public class DataAccess :IDisposable //para que no deje conexiones abiertas
     {
         SQLiteConnection connection;
@@ -29,19 +28,24 @@ namespace Estudio1.Data
         {
             connection.Delete(model);
         }
-        //public T First<T>() where T : class
-        //{
-        //   return connection.Table<T>().FirstOrDefault();
-        //}
+        public T First<T>() where T : class, new()
+        {
+            return connection.Table<T>().FirstOrDefault();
+        }
 
-        //public List<T> GetList<T>() where T : class
-        //{
-        //    return connection.Table<T>().ToList();
-        //}
-        //public T Find<T> (int pk) where T:class
-        //{
-        //    return connection.Table<T>().FirstOrDefault(x => x.GetHashCode() == pk);
-        //}
+        public List<T> GetList<T>() where T : class, new()
+        {
+            List<T> results = new List<T>();
+            foreach (var item in connection.Table<T>())
+            {
+                results.Add(item);
+            }
+            return results;
+        }
+        public T Find<T>(int pk) where T : class, new()
+        {
+            return connection.Table<T>().FirstOrDefault(x => x.GetHashCode() == pk);
+        }
         public void Dispose()
         {
             connection.Dispose();
