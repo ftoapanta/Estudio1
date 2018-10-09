@@ -222,22 +222,28 @@ namespace Estudio1.ViewModels
 
             var connection = await apiService.CheckConnection();
 
-            if (!connection.IsSuccess)
+            //borrar
+            LoadLocalData();
+            Resultado += " Ruta: " + dataService.DBInformation();
+
+            //end borrar
+            if (listaCotizaciones.Count == 0)
             {
-                LoadLocalData();
-            }
-            else
-            {
-                await LoadDataFromAPI();
+                if (!connection.IsSuccess)
+                {
+                    LoadLocalData();
+                }
+                else
+                {
+                    await LoadDataFromAPI();
+                }
             }
 
             if (listaCotizaciones.Count == 0)
             {
                 EstaCorriendo = false;
                 EstaHabilitado = false;
-                Resultado = "There are not internet connection and not load " +
-                    "previously rates. Please try again with internet " +
-                    "connection.";
+                Resultado = Resultado +=" No hay conexion a internet y no fueron cargadas previamente en la bd local. Favor intente con internet... ";
                 //var status = "No rates loaded.";
                 return;
             }
@@ -249,7 +255,7 @@ namespace Estudio1.ViewModels
 
                 EstaCorriendo = false;
                 EstaHabilitado = true;
-                Resultado = "Listo para convertir...";
+                //Resultado = "Listo para convertir...";
              }
             catch (Exception ex)
             {
@@ -261,7 +267,7 @@ namespace Estudio1.ViewModels
         {
             listaCotizaciones = dataService.Get<Cotizacion>();
 
-            Resultado = "Rates loaded from local data.";
+            Resultado = "Cotizaciones cargadas desde la bd local.";
         }
         async Task LoadDataFromAPI()
         {
@@ -304,7 +310,7 @@ namespace Estudio1.ViewModels
                         CotizacionId = id,
                         code = item.code,
                         currency = item.currency,
-                        mid = item.mid
+                        mid = item.mid,
                     });
                 }
                 catch (Exception ex)
@@ -322,6 +328,7 @@ namespace Estudio1.ViewModels
             dataService.Save(listaCotizaciones);
 
             //Status = "Rates loaded from Internet.";
+            Resultado = "Cotizaciones cargadas desde internet";
         }
     }
 }

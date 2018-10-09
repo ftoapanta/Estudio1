@@ -16,6 +16,11 @@
             connection = new SQLiteConnection(System.IO.Path.Combine(config.DirectoryDB, "Divisas.db3"));
             connection.CreateTable<Cotizacion>(); //si no existe crea la tabla si ya existe la abre
         }
+        public string DBInformation()
+        {
+            return connection.DatabasePath;
+
+        }
         public void Insert<T>(T model)
         {
             connection.Insert(model);

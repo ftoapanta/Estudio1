@@ -6,6 +6,10 @@
     using Data;
     public class DataService
     {
+        public string DBInformation()
+        {
+            return new DataAccess().DBInformation();
+        }
         public bool DeleteAll<T>() where T : class, new()
         {
             try
@@ -97,7 +101,7 @@
         {
             using (var da = new DataAccess())
             {
-                return da.GetList<T>().ToList();
+                return da.GetList<T>();
             }
         }
         public void Update<T>(T model)
