@@ -51,28 +51,29 @@
                 return model;
             }
         }
-        public T InsertOrUpdate<T>(T model) where T : class, new()
+        public int InsertOrUpdate<T>(T model) where T : class, new()
         {
             try
             {
                 using (var da = new DataAccess())
                 {
-                    var oldRecord = da.Find<T>(model.GetHashCode());
-                    if (oldRecord != null)
-                    {
-                        da.Update(model);
-                    }
-                    else
-                    {
-                        da.Insert(model);
-                    }
-                    return model;
+                    //var oldRecord = da.Find<T>(model.GetHashCode());
+                    //if (oldRecord != null)
+                    //{
+                    //    da.Update(model);
+                    //}
+                    //else
+                    //{
+                    //    da.Insert(model);
+                    //}
+
+                    return da.InsertOrUpdate(model);
                 }
             }
             catch (Exception ex)
             {
                 ex.ToString();
-                return model;
+                return 0;
             }
         }
         public T Insert<T>(T model)
@@ -118,15 +119,18 @@
                 da.Delete(model);
             }
         }
-        public void Save<T>(List<T> list) where T : class, new()
+        public int Save<T>(List<T> list) where T : class, new()
         {
+            int contador = 0;
             using (var da = new DataAccess())
             {
                 foreach (var record in list)
                 {
-                    InsertOrUpdate(record);
+                    int retorno = InsertOrUpdate(record);
+                    contador += retorno;
                 }
             }
+            return contador;
         }
     }
 }

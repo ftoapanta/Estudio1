@@ -3,8 +3,8 @@
     using Estudio1.Interfaces;
     using Estudio1.Models;
     using SQLite;
-    using SQLiteNetExtensions;
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using Xamarin.Forms;
     public class DataAccess :IDisposable //para que no deje conexiones abiertas
@@ -19,11 +19,14 @@
         public string DBInformation()
         {
             return connection.DatabasePath;
-
         }
         public void Insert<T>(T model)
         {
             connection.Insert(model);
+        }
+        public int InsertOrUpdate<T>(T model)
+        {
+            return connection.InsertOrReplace(model);
         }
         public void Update<T>(T model)
         {
@@ -41,10 +44,8 @@
         public List<T> GetList<T>() where T : class, new()
         {
             List<T> results = new List<T>();
-            foreach (var item in connection.Table<T>())
-            {
-                results.Add(item);
-            }
+            results = connection.Table<T>().ToList();
+
             return results;
         }
         public T Find<T>(int pk) where T : class, new()

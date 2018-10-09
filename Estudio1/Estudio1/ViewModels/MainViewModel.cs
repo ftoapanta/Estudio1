@@ -222,28 +222,20 @@ namespace Estudio1.ViewModels
 
             var connection = await apiService.CheckConnection();
 
-            //borrar
-            LoadLocalData();
-            Resultado += " Ruta: " + dataService.DBInformation();
-
-            //end borrar
-            if (listaCotizaciones.Count == 0)
+            if (!connection.IsSuccess)
             {
-                if (!connection.IsSuccess)
-                {
-                    LoadLocalData();
-                }
-                else
-                {
-                    await LoadDataFromAPI();
-                }
+                LoadLocalData();
             }
-
+            else
+            {
+                await LoadDataFromAPI();
+            }
+ 
             if (listaCotizaciones.Count == 0)
             {
                 EstaCorriendo = false;
                 EstaHabilitado = false;
-                Resultado = Resultado +=" No hay conexion a internet y no fueron cargadas previamente en la bd local. Favor intente con internet... ";
+                Resultado = " No hay conexion a internet y no fueron cargadas previamente en la bd local. Favor intente con internet... ";
                 //var status = "No rates loaded.";
                 return;
             }
@@ -255,7 +247,7 @@ namespace Estudio1.ViewModels
 
                 EstaCorriendo = false;
                 EstaHabilitado = true;
-                //Resultado = "Listo para convertir...";
+                Resultado = Resultado + "\r\nListo para convertir...";
              }
             catch (Exception ex)
             {
@@ -266,7 +258,6 @@ namespace Estudio1.ViewModels
         void LoadLocalData()
         {
             listaCotizaciones = dataService.Get<Cotizacion>();
-
             Resultado = "Cotizaciones cargadas desde la bd local.";
         }
         async Task LoadDataFromAPI()
@@ -324,11 +315,16 @@ namespace Estudio1.ViewModels
 
 
             // Storage data local
-            dataService.DeleteAll<Cotizacion>();
-            dataService.Save(listaCotizaciones);
+            if (dataService.DeleteAll<Cotizacion>())
+            {
+                int totalGrabado = dataService.Save(listaCotizaciones);
 
-            //Status = "Rates loaded from Internet.";
-            Resultado = "Cotizaciones cargadas desde internet";
+                //Status = "Rates loaded from Internet.";
+                Resultado = "Cotizaciones cargadas desde internet...Grabadas: " + totalGrabado.ToString();
+                return;
+            }
+            Resultado = "Error al eliminar registros...";
+
         }
     }
 }
