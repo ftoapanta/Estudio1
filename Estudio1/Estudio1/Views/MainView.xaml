@@ -111,7 +111,7 @@
                 Margin="0,10"
                 FontSize="Large"
                 HeightRequest="100"
-                BackgroundColor="White">
+                BackgroundColor="LightBlue">
             </Label>
         </StackLayout>
     </ContentPage.Content>
