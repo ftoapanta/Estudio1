@@ -29,10 +29,11 @@ namespace Estudio1.ViewModels
         bool estaCorriendo { get; set; }
         bool estaHabilitado { get; set; }
         string resultado { get; set; }
-        public ObservableCollection<Cotizacion> cotizaciones { get; set; }
-        public Cotizacion cotizacionOrigen { get; set; }
-        public Cotizacion cotizacionDestino { get; set; }
-        public string monto { get; set; }
+        ObservableCollection<Cotizacion> cotizaciones { get; set; }
+        Cotizacion cotizacionOrigen { get; set; }
+        Cotizacion cotizacionDestino { get; set; }
+        string monto { get; set; }
+        string status { get; set; }
         #endregion
 
         #region Propiedades
@@ -82,6 +83,22 @@ namespace Estudio1.ViewModels
                 {
                     resultado = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Resultado)));
+                }
+
+            }
+        }
+        public string Status
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                if (status != value)
+                {
+                    status = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Status)));
                 }
 
             }
@@ -218,7 +235,7 @@ namespace Estudio1.ViewModels
         async void CargarCotizaciones()
         {
             EstaCorriendo = true;
-            Resultado = "Cargando monedas...";
+            Status = "Cargando monedas...";
 
             var connection = await apiService.CheckConnection();
 
@@ -236,7 +253,7 @@ namespace Estudio1.ViewModels
                 EstaCorriendo = false;
                 EstaHabilitado = false;
                 Resultado = " No hay conexion a internet y no fueron cargadas previamente en la bd local. Favor intente con internet... ";
-                //var status = "No rates loaded.";
+                Status = "Las cotizaciones no fueron cargadas";
                 return;
             }
             try
@@ -247,7 +264,7 @@ namespace Estudio1.ViewModels
 
                 EstaCorriendo = false;
                 EstaHabilitado = true;
-                Resultado = Resultado + "\r\nListo para convertir...";
+                Resultado = "Listo para convertir...";
              }
             catch (Exception ex)
             {
@@ -258,7 +275,7 @@ namespace Estudio1.ViewModels
         void LoadLocalData()
         {
             listaCotizaciones = dataService.Get<Cotizacion>();
-            Resultado = "Cotizaciones cargadas desde la bd local.";
+            Status = "Cotizaciones cargadas desde la bd local.";
         }
         async Task LoadDataFromAPI()
         {
@@ -319,12 +336,9 @@ namespace Estudio1.ViewModels
             {
                 int totalGrabado = dataService.Save(listaCotizaciones);
 
-                //Status = "Rates loaded from Internet.";
-                Resultado = "Cotizaciones cargadas desde internet...Grabadas: " + totalGrabado.ToString();
+                Status = "Cotizaciones cargadas desde internet...Grabadas: " + totalGrabado.ToString();
                 return;
             }
-            Resultado = "Error al eliminar registros...";
-
         }
     }
 }
