@@ -55,6 +55,9 @@
     <PackageReference Include="MvvmLightLibs">
       <Version>5.4.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.Permissions">
+      <Version>3.0.0.12</Version>
+    </PackageReference>
     <PackageReference Include="SQLiteNetExtensions">
       <Version>2.1.0</Version>
     </PackageReference>
@@ -102,6 +105,14 @@
     <ProjectReference Include="..\Estudio1\Estudio1.csproj">
       <Project>{007F304B-3CBA-4323-B07B-357FC11FF358}</Project>
       <Name>Estudio1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xam.Plugin.Badger.Abstractions\Xam.Plugin.Badger.Abstractions.csproj">
+      <Project>{43e04a78-9b85-4a13-ade3-3572393e6df3}</Project>
+      <Name>Xam.Plugin.Badger.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xam.Plugin.Badger.Android\Xam.Plugin.Badger.Android.csproj">
+      <Project>{f87c025d-f55e-4c93-9737-1849449ab479}</Project>
+      <Name>Xam.Plugin.Badger.Android</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

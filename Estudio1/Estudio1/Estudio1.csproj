@@ -28,4 +28,8 @@
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xam.Plugin.Badger.Abstractions\Xam.Plugin.Badger.Abstractions.csproj" />
+  </ItemGroup>
 </Project>

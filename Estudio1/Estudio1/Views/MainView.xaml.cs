@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xam.Plugin.Badger.Abstractions;
+using System.Windows.Input;
 
 namespace Estudio1.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainView : ContentPage
 	{
-		public MainView ()
+        IBadgerService _badgeService;
+
+        public MainView ()
 		{
 			InitializeComponent ();
 		}
-	}
+        public ICommand SetBadgeCountCommand
+            => new Command<string>((count) => _badgeService.SetCount(int.Parse(count)));
+
+    }
 }

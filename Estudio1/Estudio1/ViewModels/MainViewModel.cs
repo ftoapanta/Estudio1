@@ -12,10 +12,14 @@ using Estudio1.Models;
 using Estudio1.Services;
 using System.Threading.Tasks;
 
+using Xam.Plugin.Badger.Abstractions;
+using System.Windows.Input;
+
 namespace Estudio1.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        IBadgerService _badgeService;
         //para disparar el binding a la vista se lo hace utilizando en las propiedades
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -171,6 +175,14 @@ namespace Estudio1.ViewModels
         #endregion
 
         #region Comandos
+        public ICommand SetBadgeCountCommand
+        => new Command<string>((count) =>EjecutarBadge(count));
+
+        public void EjecutarBadge(string count)
+        {
+            _badgeService.SetCount(int.Parse(count));
+        }
+
         public ICommand IntercambiarCommand
         {
             get
@@ -228,6 +240,7 @@ namespace Estudio1.ViewModels
             apiService = new ApiService();
             dialogService = new DialogService();
             dataService = new DataService();
+            _badgeService = DependencyService.Get<IBadgerService>();
             CargarCotizaciones();
         }
         #endregion
@@ -261,6 +274,9 @@ namespace Estudio1.ViewModels
 
                 Cotizaciones = new ObservableCollection<Cotizacion>();
                 listaCotizaciones.ForEach(x => Cotizaciones.Add(new Cotizacion { code = x.code, CotizacionId = x.CotizacionId, currency = x.currency, mid = x.mid }));
+
+                Random numero = new Random();
+                EjecutarBadge(numero.Next(30, 35).ToString());
 
                 EstaCorriendo = false;
                 EstaHabilitado = true;
@@ -336,7 +352,7 @@ namespace Estudio1.ViewModels
             {
                 int totalGrabado = dataService.Save(listaCotizaciones);
 
-                Status = "Cotizaciones cargadas desde internet...Grabadas: " + totalGrabado.ToString();
+                Status = "Cotizaciones cargadas desde internet... ";
                 return;
             }
         }

@@ -7,7 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estudio1.Android", "Estudio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estudio1.UWP", "Estudio1\Estudio1.UWP\Estudio1.UWP.csproj", "{BCF513BB-51F2-4D92-B202-8BEEA4AC5D5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estudio1", "Estudio1\Estudio1\Estudio1.csproj", "{20DE3AF4-1BF5-47DC-B090-7441E954983F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estudio1", "Estudio1\Estudio1\Estudio1.csproj", "{20DE3AF4-1BF5-47DC-B090-7441E954983F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xam.Plugin.Badger.Abstractions", "Estudio1\Xam.Plugin.Badger.Abstractions\Xam.Plugin.Badger.Abstractions.csproj", "{43E04A78-9B85-4A13-ADE3-3572393E6DF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam.Plugin.Badger.Android", "Estudio1\Xam.Plugin.Badger.Android\Xam.Plugin.Badger.Android.csproj", "{F87C025D-F55E-4C93-9737-1849449AB479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +97,38 @@ Global
 		{20DE3AF4-1BF5-47DC-B090-7441E954983F}.Release|x86.ActiveCfg = Release|Any CPU
 		{20DE3AF4-1BF5-47DC-B090-7441E954983F}.Release|x86.Build.0 = Release|Any CPU
 		{20DE3AF4-1BF5-47DC-B090-7441E954983F}.Release|x86.Deploy.0 = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|ARM.Build.0 = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|x64.Build.0 = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Debug|x86.Build.0 = Debug|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|ARM.Build.0 = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|x64.ActiveCfg = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|x64.Build.0 = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|x86.ActiveCfg = Release|Any CPU
+		{43E04A78-9B85-4A13-ADE3-3572393E6DF3}.Release|x86.Build.0 = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|x64.Build.0 = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Debug|x86.Build.0 = Debug|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|ARM.Build.0 = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|x64.ActiveCfg = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|x64.Build.0 = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|x86.ActiveCfg = Release|Any CPU
+		{F87C025D-F55E-4C93-9737-1849449AB479}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
